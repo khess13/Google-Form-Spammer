@@ -6,25 +6,19 @@ fake=Faker()
 fake_IN=Faker('hi_IN')
 
 def post(link,num,faker):
-	form_entry=['']
-	form_entry_data=['']
+	form_entry=[# enter.some_number
+	]
+	form_entry_data=[# name, sentence, number, bank, email, phone, literal value
+	]
 	payload="------WebKitFormBoundary7MA4YWxkTrZu0gW"
 
 	if (faker==0):
-		choice='y'
-		while(choice=='y'):
-			print("Enter form data entry: ")
-			form_entry.append(input())
-			print("Enter the value:	")
-			form_entry_data.append(input())
-			print("Add more entries?(y/N)")
-			choice=input()
 		for i in range(len(form_entry)):
 			if(i==0):
 				continue
 			payload+="\r\nContent-Disposition: form-data; name=\""+str(form_entry[i])+"\"\r\n\r\n"+str(form_entry_data[i])+"\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW"
 		conn = http.client.HTTPSConnection("docs.google.com")
-		
+
 		payload+="--"
 
 		headers = {
@@ -43,19 +37,10 @@ def post(link,num,faker):
 			print('Successful!')
 		else:
 			print('ERROR!!')
-		
-	
+
+
 
 	elif (faker==1):
-		choice='y'
-		while(choice=='y'):
-			print("Enter form data entry: ")
-			form_entry.append(input())
-			print("Choose the type of value:	\n(name,number,email,word,sentence,or enter the value)")
-			form_entry_data.append(input())
-			print("Add more entries?(y/N)")
-			choice=input()
-		
 		conn = http.client.HTTPSConnection("docs.google.com")
 
 		headers = {
@@ -82,7 +67,7 @@ def post(link,num,faker):
 		else:
 			print('ERROR!!')
 
-	
+
 def help():
 	print("usage: python formspam.py [-h] | [-l] link | [-n] number | [-f]")
 	print("")
@@ -108,8 +93,12 @@ def help():
 def faker_input(type):
 	if(type=="name"):
 		return fake.name()
+	if(type=="bank"):
+		return "Bank of " + fake.word()
 	if(type=="number"):
 		return fake.msisdn()
+	if(type=="phone"):
+		return fake.phone_number()
 	if(type=="word"):
 		return fake.word()
 	if(type=="sentence"):
@@ -118,7 +107,7 @@ def faker_input(type):
 		return fake.email()
 	else:
 		return type
-	
+
 
 argument=sys.argv
 faker=0
